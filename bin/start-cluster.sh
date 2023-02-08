@@ -11,11 +11,21 @@ kubectl create ns monitoring
 helm install kind-p -n monitoring prometheus-community/prometheus
 helm install kind-g -n monitoring bitnami/grafana
 
+helm install cert-manager jetstack/cert-manager \
+  --set installCRDs=true
+
 kubectl create ns observability
-helm install kind-j -n observability jaegertracing/jaeger \
-  --set provisionDataStore.cassandra=false \
-  --set allInOne.enabled=true \
-  --set storage.type=none \
-  --set agent.enabled=false \
-  --set collector.enabled=false \
-  --set query.enabled=false
+
+# Jaeger runs but doesn't appear to webhook interact
+
+# helm install kind-j -n observability jaegertracing/jaeger \
+#   --set provisionDataStore.cassandra=false \
+#   --set allInOne.enabled=true \
+#   --set storage.type=none \
+#   --set agent.enabled=false \
+#   --set collector.enabled=false \
+#   --set query.enabled=false
+
+# jaeger operator installs but does not start all pods
+
+helm install -n observability kind-j jaegertracing/jaeger-operator
