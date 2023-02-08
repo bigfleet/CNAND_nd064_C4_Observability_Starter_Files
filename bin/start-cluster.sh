@@ -28,4 +28,6 @@ kubectl create ns observability
 
 # jaeger operator installs but does not start all pods
 
-helm install -n observability kind-j jaegertracing/jaeger-operator
+helm install -n observability kind-j jaegertracing/jaeger-operator \
+  --set rbac.create=true \
+  --set rbac.clusterRole=true

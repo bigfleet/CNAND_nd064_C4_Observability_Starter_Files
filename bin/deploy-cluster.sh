@@ -5,6 +5,8 @@
 # kubectl create namespace observability 
 # helm install -n observability kind-j jaegertracing/jaeger-operator
 
-# kubectl apply -f https://raw.githubusercontent.com/jaegertracing/helm-charts/main/charts/jaeger-operator/crds/crd.yaml
+kubectl apply -f https://raw.githubusercontent.com/jaegertracing/helm-charts/main/charts/jaeger-operator/crds/crd.yaml
+# kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.28.0/deploy/cluster_role.yaml
+# kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.28.0/deploy/cluster_role_binding.yaml
 
 kubectl apply -f deployment/
