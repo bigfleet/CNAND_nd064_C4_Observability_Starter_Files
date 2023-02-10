@@ -16,7 +16,7 @@ helm install cert-manager jetstack/cert-manager \
 
 kubectl create ns observability
 
-# Jaeger runs but doesn't appear to webhook interact
+# Jaeger runs but doesn't appear to webhook interact (duh)
 
 # helm install kind-j -n observability jaegertracing/jaeger \
 #   --set provisionDataStore.cassandra=false \
@@ -29,5 +29,4 @@ kubectl create ns observability
 # jaeger operator installs but does not start all pods
 
 helm install -n observability kind-j jaegertracing/jaeger-operator \
-  --set rbac.create=true \
-  --set rbac.clusterRole=true
+  -f j-args.yml
