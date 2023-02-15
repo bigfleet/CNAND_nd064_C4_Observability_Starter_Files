@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: my-test-trace
+  annotations:
+    "sidecar.jaegertracing.io/inject": "true"
 spec:
   replicas: 1
   selector:
@@ -16,11 +18,13 @@ spec:
       containers:
       - name: hello-app
         # Replace $GCLOUD_PROJECT with your project ID
-        image: <your container>
+        image: bigfleet/jaeger-test:latest
         # This app listens on port 8080 for web traffic by default.
         ports:
         - containerPort: 8080
         env:
+          # - name: JAEGER_ENDPOINT
+          #   value: "http://simpletest-collector.default.svc.cluster.local:14268/api/traces"
           - name: PORT
             value: "8080"
 ---
@@ -35,3 +39,14 @@ spec:
   ports:
   - port: 80
     targetPort: 8080
+---
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: simpletest
+spec:
+  strategy: allInOne # <1>
+  allInOne:
+    image: jaegertracing/all-in-one:latest # <2>
+    options: # <3>
+      log-level: debug

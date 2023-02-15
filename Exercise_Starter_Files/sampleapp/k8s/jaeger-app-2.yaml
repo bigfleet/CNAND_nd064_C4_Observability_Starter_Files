@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: second-sample-app
-          image: ghcr.io/jasonsmithio/my-sample-app:v2
+          image: bigfleet/jaeger_2:latest
           imagePullPolicy: Always
           ports:
             - name: backend-port
