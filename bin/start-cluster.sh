@@ -26,7 +26,5 @@ kubectl create ns observability
 #   --set collector.enabled=false \
 #   --set query.enabled=false
 
-# jaeger operator installs but does not start all pods
-
 helm install -n observability kind-j jaegertracing/jaeger-operator \
   -f j-args.yml

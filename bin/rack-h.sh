@@ -1,0 +1,1 @@
+kubectl port-forward $(kubectl get pods -l app=hello --namespace default --output name) 18080:8080 -n default

@@ -1,0 +1,1 @@
+kubectl port-forward $(kubectl get pods -l app=prometheus --namespace monitoring --output name) 9090:9090 -n monitoring

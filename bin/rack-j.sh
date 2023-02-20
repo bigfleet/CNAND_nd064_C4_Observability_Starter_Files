@@ -1,0 +1,1 @@
+kubectl port-forward $(kubectl get pods -l app.kubernetes.io/name=simpletest --namespace default --output name) 16686:16686 -n default
