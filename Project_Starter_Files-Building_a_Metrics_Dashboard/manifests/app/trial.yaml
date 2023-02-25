@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: trial
-        # We advise you to build, push and use your own image, instead of using instructor's image.
+        imagePullPolicy: Always
         image: bigfleet/jaeger-trial:v1
         ports:
         - containerPort: 8080

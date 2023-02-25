@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jae-ingress
+  # annotations:
+  #   cert-manager.io/cluster-issuer: <%= issuer_provider %>-<%= cluster_name %>
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "jae.10.0.0.12.sslip.io"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /jae(/trial)
+            backend:
+              service: 
+                name: trial-service
+                port:
+                  number: 8082
+          - pathType: Prefix
+            path: /jae(/backend)
+            backend:
+              service: 
+                name: backend-service
+                port:
+                  number: 8081
+          - pathType: Prefix
+            path: /jae/(.*)
+            backend:
+              service: 
+                name: frontend-service
+                port:
+                  number: 8080
