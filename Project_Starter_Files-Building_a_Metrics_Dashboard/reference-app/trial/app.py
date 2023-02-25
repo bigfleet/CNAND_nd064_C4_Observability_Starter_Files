@@ -57,36 +57,42 @@ def trace():
         tag = re.compile(r"<[^>]+>")
         return tag.sub("", text)
 
-    with tracer.start_span("get-python-jobs") as span:
-        res = requests.get("https://jobs.github.com/positions.json?description=python")
-        span.log_kv({"event": "get jobs count", "count": len(res.json())})
-        span.set_tag("jobs-count", len(res.json()))
-
-        jobs_info = []
-        for result in res.json():
-            jobs = {}
+    with tracer.start_span("get-python-repos") as span:
+        url = "https://api.github.com/search/repositories?q=python"
+        headers= {
+              'Accept': 'application/vnd.github+json',
+              'Authorization': 'Bearer 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',
+              'X-GitHub-Api-Version': '2022-11-28'
+        }
+        res = requests.get(url, headers=headers)
+        span.log_kv({"event": "get repos count", "count": len(res.json())})
+        span.set_tag("repos-count", len(res.json()))
+        repos_info = []
+        for result in res.json()['items']:
+            #logger.debug(f"result {result}")
+            repos = {}
             with tracer.start_span("request-site") as site_span:
-                logger.info(f"Getting website for {result['company']}")
+                logger.info(f"Getting result for {result}")
+                logger.info(f"Getting website for {result['full_name']}")
                 try:
-                    jobs["description"] = remove_tags(result["description"])
-                    jobs["company"] = result["company"]
-                    jobs["company_url"] = result["company_url"]
-                    jobs["created_at"] = result["created_at"]
-                    jobs["how_to_apply"] = result["how_to_apply"]
-                    jobs["location"] = result["location"]
-                    jobs["title"] = result["title"]
-                    jobs["type"] = result["type"]
-                    jobs["url"] = result["url"]
+                    repos["full_name"] = remove_tags(result["full_name"])
+                    repos["description"] = result["description"]
+                    repos["owner"] = result["owner"]["login"]
+                    repos["owner_url"] = result["owner"]["url"]
+                    repos["owner_type"] = result["owner"]["type"]
+                    repos["name"] = result["name"]
+                    repos["type"] = result["language"]
+                    repos["url"] = result["html_url"]
 
-                    jobs_info.append(jobs)
+                    repos_info.append(repos)
                     site_span.set_tag("http.status_code", res.status_code)
-                    site_span.set_tag("company-site", result["company"])
+                    site_span.set_tag("company-site", result["html_url"])
                 except Exception:
                     logger.error(f"Unable to get site for {result['company']}")
                     site_span.set_tag("http.status_code", res.status_code)
-                    site_span.set_tag("company-site", result["company"])
+                    site_span.set_tag("company-site", result["html_url"])
 
-    return jsonify(jobs_info)
+    return jsonify(repos_info)
 
 
 if __name__ == "__main__":
