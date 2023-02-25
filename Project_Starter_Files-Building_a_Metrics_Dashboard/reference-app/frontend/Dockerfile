@@ -8,7 +8,7 @@ WORKDIR $APP_HOME
 COPY . ./
 
 # Install production dependencies.
-RUN apt-get update && \
+RUN apt-get -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false update && \
     pip install --upgrade pip && \
     pip install -r requirements.txt
 
