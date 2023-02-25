@@ -14,14 +14,14 @@ spec:
       http:
         paths:
           - pathType: Prefix
-            path: /jae(/trial)
+            path: /jae/trial(/.*)
             backend:
               service: 
                 name: trial-service
                 port:
                   number: 8082
           - pathType: Prefix
-            path: /jae(/backend)
+            path: /jae/backend(/.*)
             backend:
               service: 
                 name: backend-service
