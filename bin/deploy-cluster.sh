@@ -1,12 +1,19 @@
-# kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.crds.yaml
+kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/other/elasticsearch.yaml
 
-# kubectl create -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.41.1/jaeger-operator.yaml -n observability
+sleep 20
 
-# kubectl create namespace observability 
-# helm install -n observability kind-j jaegertracing/jaeger-operator
+kubectl wait --namespace default \
+  --for=condition=ready pod \
+  --selector=statefulset.kubernetes.io/pod-name=quickstart-es-default-0 \
+  --timeout=90s
 
-kubectl apply -f https://raw.githubusercontent.com/jaegertracing/helm-charts/main/charts/jaeger-operator/crds/crd.yaml
-# kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.28.0/deploy/cluster_role.yaml
-# kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.28.0/deploy/cluster_role_binding.yaml
+ES_PASSWORD=$(kubectl get secret quickstart-es-elastic-user -o go-template='{{.data.elastic | base64decode}}')
 
-kubectl apply -f deployment/
+kubectl create secret generic jaeger-secret --from-literal=ES_PASSWORD=$ES_PASSWORD --from-literal=ES_USERNAME=elastic
+
+kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/other/jaeger-elasticsearch.yaml
+
+kubectl wait --namespace default \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/name=simple-prod-collector \
+  --timeout=90s
