@@ -8,7 +8,7 @@ spec:
     type: elasticsearch
     options:
       es:
-        server-urls: https://quickstart-es-http.default.svc:9200 # <2>
+        server-urls: https://quickstart-es-http:9200 # <2>
         index-prefix: my-prefix
         tls: # <3>
           ca: /es/certificates/ca.crt

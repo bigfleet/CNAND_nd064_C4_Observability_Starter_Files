@@ -3,6 +3,8 @@ kind: Elasticsearch
 metadata:
   name: quickstart
 spec:
+# Can't upgrade to ES 8 at this time
+# https://github.com/jaegertracing/jaeger/issues/3571
   version: 7.9.1
   nodeSets:
   - name: default
