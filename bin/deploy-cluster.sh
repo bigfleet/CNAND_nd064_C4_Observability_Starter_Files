@@ -13,7 +13,22 @@ kubectl create secret generic jaeger-secret --from-literal=ES_PASSWORD=$ES_PASSW
 
 kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/other/jaeger-elasticsearch.yaml
 
+sleep 20
+
 kubectl wait --namespace default \
   --for=condition=ready pod \
   --selector=app.kubernetes.io/name=simple-prod-collector \
   --timeout=90s
+
+helm install community-operator mongodb/community-operator
+
+kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/other/mongo.yaml
+
+sleep 20
+
+kubectl wait --namespace default \
+  --for=condition=ready pod \
+  --selector=statefulset.kubernetes.io/pod-name=example-mongodb-0 \
+  --timeout=90s
+
+  
