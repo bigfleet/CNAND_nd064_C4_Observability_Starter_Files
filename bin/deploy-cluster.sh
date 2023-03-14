@@ -31,4 +31,7 @@ kubectl wait --namespace default \
   --selector=statefulset.kubernetes.io/pod-name=example-mongodb-0 \
   --timeout=90s
 
-  
+kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/app/backend.yaml
+kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/app/frontend.yaml
+kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/app/mongoc.yaml
+kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/app/trial.yaml
