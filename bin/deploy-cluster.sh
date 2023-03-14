@@ -33,5 +33,4 @@ kubectl wait --namespace default \
 
 kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/app/backend.yaml
 kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/app/frontend.yaml
-kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/app/mongoc.yaml
 kubectl apply -f Project_Starter_Files-Building_a_Metrics_Dashboard/manifests/app/trial.yaml
