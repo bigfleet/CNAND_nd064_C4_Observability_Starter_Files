@@ -11,15 +11,19 @@ spec:
     authentication:
       modes: ["SCRAM"]
   users:
-    - name: my-user
+    - name: dashboard-user
       db: admin
       passwordSecretRef: # a reference to the secret that will be used to generate the user's password
-        name: my-user-password
+        name: dashboard-mongo-password
       roles:
         - name: clusterAdmin
           db: admin
         - name: userAdminAnyDatabase
           db: admin
+        - name: readWriteAnyDatabase
+          db: admin
+        - name: readWrite
+          db: dashboard
       scramCredentialsSecretName: my-scram
   additionalMongodConfig:
     storage.wiredTiger.engineConfig.journalCompressor: zlib
@@ -30,7 +34,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: my-user-password
+  name: dashboard-mongo-password
 type: Opaque
 stringData:
   password: rampart-of-the-rams-head

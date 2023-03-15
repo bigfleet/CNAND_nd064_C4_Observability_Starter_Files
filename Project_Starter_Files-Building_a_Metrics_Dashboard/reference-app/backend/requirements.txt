@@ -14,3 +14,4 @@ opentelemetry-instrumentation
 opentelemetry-sdk
 prometheus-flask-exporter
 Flask-OpenTracing
+dnspython

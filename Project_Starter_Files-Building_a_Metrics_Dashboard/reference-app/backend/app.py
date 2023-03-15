@@ -60,6 +60,11 @@ def my_api():
       answer = "something"
       return jsonify(repsonse=answer)
 
+@app.route("/star", methods=["GET"])
+def star():
+    star = mongo.db.stars
+    new_star = star.find_one_or_404()
+    return jsonify({"result": new_star})
 
 @app.route("/star", methods=["POST"])
 def add_star():
