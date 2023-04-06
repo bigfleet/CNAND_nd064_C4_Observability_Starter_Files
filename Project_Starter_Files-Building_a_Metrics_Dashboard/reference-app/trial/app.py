@@ -1,6 +1,7 @@
 import logging
 import re
 import requests
+import os
 
 
 from flask import Flask, jsonify, render_template
@@ -11,6 +12,7 @@ from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
 from prometheus_flask_exporter import PrometheusMetrics
 
+gh_token = os.getenv("GITHUB_TOKEN")
 
 app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app)
@@ -61,7 +63,7 @@ def trace():
         url = "https://api.github.com/search/repositories?q=python"
         headers= {
               'Accept': 'application/vnd.github+json',
-              'Authorization': 'Bearer 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',
+              'Authorization': f"Bearer {gh_token}",
               'X-GitHub-Api-Version': '2022-11-28'
         }
         res = requests.get(url, headers=headers)

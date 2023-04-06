@@ -29,7 +29,7 @@ spec:
         imagePullPolicy: Always
         image: bigfleet/nd-backend:v1
         ports:
-        - containerPort: 8081
+        - containerPort: 8080
         env:
         - name: MONGO_URI
           valueFrom:
