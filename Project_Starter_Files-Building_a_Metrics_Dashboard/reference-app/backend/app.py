@@ -62,19 +62,21 @@ def my_api():
 
 @app.route("/star", methods=["GET"])
 def star():
-    star = mongo.db.stars
-    new_star = star.find_one_or_404()
-    return jsonify({"result": new_star})
+    with tracer.start_span("get-star") as span:
+      star = mongo.db.stars
+      new_star = star.find_one_or_404()
+      return jsonify({"result": new_star})
 
 @app.route("/star", methods=["POST"])
 def add_star():
-    star = mongo.db.stars
-    name = request.json["name"]
-    distance = request.json["distance"]
-    star_id = star.insert({"name": name, "distance": distance})
-    new_star = star.find_one({"_id": star_id})
-    output = {"name": new_star["name"], "distance": new_star["distance"]}
-    return jsonify({"result": output})
+    with tracer.start_span("post-star") as span:
+      star = mongo.db.stars
+      name = request.json["name"]
+      distance = request.json["distance"]
+      star_id = star.insert({"name": name, "distance": distance})
+      new_star = star.find_one({"_id": star_id})
+      output = {"name": new_star["name"], "distance": new_star["distance"]}
+      return jsonify({"result": output})
 
 if __name__ == "__main__":
     app.run()
