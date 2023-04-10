@@ -92,11 +92,56 @@ Database interactivity creates 500s
 
 As seen in [this trace](https://www.grafana.tekton.wolf.bigfleet.dev/explore?left=%7B%22datasource%22:%22XJyML2LVk%22,%22queries%22:%5B%7B%22query%22:%226a872069cb5ed0f4%22,%22refId%22:%22A%22%7D%5D,%22range%22:%7B%22from%22:%22now-1h%22,%22to%22:%22now%22%7D%7D&orgId=1&right=%7B%22datasource%22:%22XJyML2LVk%22,%22queries%22:%5B%7B%22query%22:%226a872069cb5ed0f4%22,%22refId%22:%22A%22%7D%5D,%22range%22:%7B%22from%22:%221681136032465%22,%22to%22:%221681139632465%22%7D,%22panelsState%22:%7B%22trace%22:%7B%22spanId%22:%2263b680da6e445b07%22%7D%7D%7D), the MongoDB created for this application still has insufficient structure to respond correctly with respect to forming a response on the server-side.  Either interact with the created database in a way to resolve this issue, improve your error handling, or provide operations with a database preparation script that we can ensure runs as a part of service start-up.
 
+#### Cache query results
+
+Date: 2003/04/10
+
+Subject: Trial query introduces high latency with low information change
+
+Affected Area: trial
+
+Severity: Medium
+
+Description:
+
+Consider adding an in-memory cache to avoid repeated requests to an API endpoint, with cache warming as a part of application startup.
+
+The GitHub API request pushes service outside of its latency SLI on the uptime SLO.
+
+### SLIs
+
+Given an SLO commitment of our application has a 99.95% uptime per month, we'd be interested in the following SLIs:
+
+* Measured availability of the service
+* Error rate of requests to the service
+* Throughput, or total requests to the service
+* Latency, or response time for each request to the service
+
+### KPIs
+
+#### Error rates and budgets
+
+*SLI: Less than 1% of requests to service should result in 500 status codes*
+
+#### Latency
+
+*SLI: At the 95th percentile of latency, requests to service should return in less than 1 second*
+
+#### Availability
+
+*SLI: Fewer than 1 container restarts for service per 24hr period*
+
+With a Kubernetes runtime, a container restart is a reasonable proxy for momentary unavailability, particularly if our deployments currently target 1 replica, as they do today.
+
 ## Learnings
 
 Jaeger is a service that you run and make operational decisions about.  The all-in-one is like running it on your laptop.  You probably don't want that in prod.
 
 Jaeger operator is like "client discovery" -- client applications can "opt-in" with an inject annotation.  You want to run the operator (with attendant Jaeger crd's and configs) anywhere that can transmit to the Jaeger you've set up.
+
+![Final Grafana Dashboard Sample](/answer-img/5-final-dashboard.png)
+
+Visit it [here](https://www.grafana.tekton.wolf.bigfleet.dev/d/wmVh9hL4z/slo-submissions?orgId=1).
 
 ## My (local) notes
 
