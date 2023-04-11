@@ -110,6 +110,8 @@ Consider adding an in-memory cache to avoid repeated requests to an API endpoint
 
 The GitHub API request pushes service outside of its latency SLI on the uptime SLO.
 
+![Jaeger 500 trace](answer-img/7-latency-sli-failure.png)
+
 ### SLIs
 
 Given an SLO commitment of our application has a 99.95% uptime per month, we'd be interested in the following SLIs:
