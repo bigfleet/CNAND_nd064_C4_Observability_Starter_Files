@@ -92,6 +92,8 @@ Database interactivity creates 500s
 
 As seen in [this trace](https://www.grafana.tekton.wolf.bigfleet.dev/explore?left=%7B%22datasource%22:%22XJyML2LVk%22,%22queries%22:%5B%7B%22query%22:%226a872069cb5ed0f4%22,%22refId%22:%22A%22%7D%5D,%22range%22:%7B%22from%22:%22now-1h%22,%22to%22:%22now%22%7D%7D&orgId=1&right=%7B%22datasource%22:%22XJyML2LVk%22,%22queries%22:%5B%7B%22query%22:%226a872069cb5ed0f4%22,%22refId%22:%22A%22%7D%5D,%22range%22:%7B%22from%22:%221681136032465%22,%22to%22:%221681139632465%22%7D,%22panelsState%22:%7B%22trace%22:%7B%22spanId%22:%2263b680da6e445b07%22%7D%7D%7D), the MongoDB created for this application still has insufficient structure to respond correctly with respect to forming a response on the server-side.  Either interact with the created database in a way to resolve this issue, improve your error handling, or provide operations with a database preparation script that we can ensure runs as a part of service start-up.
 
+![Jaeger 500 trace](/answer-img/6-jaeger-trace.png)
+
 #### Cache query results
 
 Date: 2003/04/10
@@ -119,19 +121,37 @@ Given an SLO commitment of our application has a 99.95% uptime per month, we'd b
 
 ### KPIs
 
+Here, again, is the dashboard.
+
+![Grafana Dashboard Sample](/answer-img/3-grafana-dash.png)
+
 #### Error rates and budgets
 
 *SLI: Less than 1% of requests to service should result in 500 status codes*
 
+Status codes in the 200's and 300's are commonplace in web service software.
+Services operating on the public internet are subject to all manner of traffic with malicious intent, much of which will be in the 400 class.  It forms a poor basis for a SLI because it won't go up and down as customer experience improves.
+500 errors, on the other hand, are always an issue that the technical team can improve.  A 503 usually indicates a service has failed or is struggling to meet its goals in a fixed timeframe.  A 500 is often a programming error.  These errors are good candidates to track with an SLI, as customer experience can always be improved, and it's a leading indicator.
+
+The graph in the dashboard shows this error rate tracked for each service.  Presenting this together can help determine if there are any correlations in increased error rates that might be even more pressing.
+
 #### Latency
 
 *SLI: At the 95th percentile of latency, requests to service should return in less than 1 second*
+
+Speed is paramount to the customer experience on the Internet.  The curve of satisfaction drops steeply at higher values for response time, while the difference between very fast and fast is not as important.  With this preference set, we want to set an expectation on the basis of the largest preponderance of our responses, while retaining some resistance to having a single outlier move us past a threshold.
+
+Latency is displayed in a table above.    The table contains average, p50, p95 and p99 timings for each service in the time period.
+
+Since the time this course was written, Grafana has iterated on its table concept, and I was not able to completely eliminate or reduce the "time" column without making the response figures inaccurate, so those are still there.
 
 #### Availability
 
 *SLI: Fewer than 1 container restarts for service per 24hr period*
 
 With a Kubernetes runtime, a container restart is a reasonable proxy for momentary unavailability, particularly if our deployments currently target 1 replica, as they do today.
+
+These are raw statistics, and are not graphed.
 
 ## Learnings
 
