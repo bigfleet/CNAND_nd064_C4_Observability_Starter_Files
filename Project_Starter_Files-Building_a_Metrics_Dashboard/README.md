@@ -92,7 +92,7 @@ Database interactivity creates 500s
 
 As seen in [this trace](https://www.grafana.tekton.wolf.bigfleet.dev/explore?left=%7B%22datasource%22:%22XJyML2LVk%22,%22queries%22:%5B%7B%22query%22:%226a872069cb5ed0f4%22,%22refId%22:%22A%22%7D%5D,%22range%22:%7B%22from%22:%22now-1h%22,%22to%22:%22now%22%7D%7D&orgId=1&right=%7B%22datasource%22:%22XJyML2LVk%22,%22queries%22:%5B%7B%22query%22:%226a872069cb5ed0f4%22,%22refId%22:%22A%22%7D%5D,%22range%22:%7B%22from%22:%221681136032465%22,%22to%22:%221681139632465%22%7D,%22panelsState%22:%7B%22trace%22:%7B%22spanId%22:%2263b680da6e445b07%22%7D%7D%7D), the MongoDB created for this application still has insufficient structure to respond correctly with respect to forming a response on the server-side.  Either interact with the created database in a way to resolve this issue, improve your error handling, or provide operations with a database preparation script that we can ensure runs as a part of service start-up.
 
-![Jaeger 500 trace](answer-img/6-jaeger-trace.png)
+![Jaeger 500 trace](answer-img/6-500-screenshot.png)
 
 #### Cache query results
 
