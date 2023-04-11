@@ -6,7 +6,7 @@ This is Jim Van Fleet (@bigfleet)'s copy of the public repository for the Observ
 
 ### Pods
 
-![Pod listing of relevant namespaces.](/answer-img/1-pod-list.svg)
+![Pod listing of relevant namespaces.](answer-img/1-pod-list.svg)
 
 ### Prometheus, Jaeger, and Grafana
 
@@ -18,7 +18,7 @@ In the event you want to interact with the front-end and see your own requests r
 
 The requested screenshot for submission is this one:
 
-![Grafana Dashboards](/answer-img/2-grafana-home.png)
+![Grafana Dashboards](answer-img/2-grafana-home.png)
 
 ### Describe SLO/SLI
 
@@ -51,7 +51,7 @@ For _request response time_, we may want to capture the following:
 
 * *Success rates*: This will give us an idea of how many requests for service are typically successful, along with their ranges.  When viewed over time, troughs can be alerted when they occur.
 
-![Grafana Dashboard Sample](/answer-img/3-grafana-dash.png)
+![Grafana Dashboard Sample](answer-img/3-grafana-dash.png)
 
 ### Traces
 
@@ -60,7 +60,7 @@ The [backend python sample](Project_Starter_Files-Building_a_Metrics_Dashboard/r
 
 One of the submitted dashboards allows to click on traces from the backend and the trial application.
 
-![Jaeger trace](/answer-img/4-jaeger-trace.png)
+![Jaeger trace](answer-img/4-jaeger-trace.png)
 
 ### Trouble Tickets
 
@@ -92,7 +92,7 @@ Database interactivity creates 500s
 
 As seen in [this trace](https://www.grafana.tekton.wolf.bigfleet.dev/explore?left=%7B%22datasource%22:%22XJyML2LVk%22,%22queries%22:%5B%7B%22query%22:%226a872069cb5ed0f4%22,%22refId%22:%22A%22%7D%5D,%22range%22:%7B%22from%22:%22now-1h%22,%22to%22:%22now%22%7D%7D&orgId=1&right=%7B%22datasource%22:%22XJyML2LVk%22,%22queries%22:%5B%7B%22query%22:%226a872069cb5ed0f4%22,%22refId%22:%22A%22%7D%5D,%22range%22:%7B%22from%22:%221681136032465%22,%22to%22:%221681139632465%22%7D,%22panelsState%22:%7B%22trace%22:%7B%22spanId%22:%2263b680da6e445b07%22%7D%7D%7D), the MongoDB created for this application still has insufficient structure to respond correctly with respect to forming a response on the server-side.  Either interact with the created database in a way to resolve this issue, improve your error handling, or provide operations with a database preparation script that we can ensure runs as a part of service start-up.
 
-![Jaeger 500 trace](/answer-img/6-jaeger-trace.png)
+![Jaeger 500 trace](answer-img/6-jaeger-trace.png)
 
 #### Cache query results
 
@@ -123,7 +123,7 @@ Given an SLO commitment of our application has a 99.95% uptime per month, we'd b
 
 Here, again, is the dashboard.
 
-![Grafana Dashboard Sample](/answer-img/3-grafana-dash.png)
+![Grafana Dashboard Sample](answer-img/3-grafana-dash.png)
 
 #### Error rates and budgets
 
@@ -159,7 +159,7 @@ Jaeger is a service that you run and make operational decisions about.  The all-
 
 Jaeger operator is like "client discovery" -- client applications can "opt-in" with an inject annotation.  You want to run the operator (with attendant Jaeger crd's and configs) anywhere that can transmit to the Jaeger you've set up.
 
-![Final Grafana Dashboard Sample](/answer-img/5-final-dashboard.png)
+![Final Grafana Dashboard Sample](answer-img/5-final-dashboard.png)
 
 Visit it [here](https://www.grafana.tekton.wolf.bigfleet.dev/d/wmVh9hL4z/slo-submissions?orgId=1).
 
